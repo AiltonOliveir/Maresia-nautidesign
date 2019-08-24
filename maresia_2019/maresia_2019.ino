@@ -35,7 +35,7 @@ void setup()
 
   TCCR2A = 0xA3;         //Configura operação em fast PWM, utilizando registradores OCR2x para comparação
                          //1010 0011
-  setFrequency(2);       //Seleciona opção 4 para frequência PWM (aprox 7.8kHz)
+  setFrequency(1.9);       //Seleciona opção 4 para frequência PWM (aprox 7.8kHz)
 
  //controlarão o PWM
   pinMode(r_pwm, OUTPUT);
@@ -51,8 +51,9 @@ void setup()
   digitalWrite(r_en,LOW);
   digitalWrite(l_en,LOW);
  
-  Serial.begin(9600);            //Inicia comunicação Serial com 9600 de baud rate
-
+  Serial.begin(9600);//Inicia comunicação Serial com 9600 de baud rate
+  HC12.begin(9600)
+  
 } //end setup
 
 void loop()
@@ -67,22 +68,22 @@ while(canal_05<1500) // enquanto a chave estiver para baixo
 {
      avante();
      read_channels();
-     delay(5);
+     delay(10);
 }
       reverso();
-      delay(5);
+      delay(10);
 
 } //end loop
 
 void read_channels()
 {
   canal_03 = pulseIn(ch3, HIGH, 25000); //Lê pulso em nível alto do canal 3 e armazena na variável canal_03
-  canal_03 = constrain(canal_03,1000,2000);
-  delay(5);
+  canal_03 = constrain(canal_03,1145,1950);
+  delay(20);
 
   canal_05 = pulseIn(ch5, HIGH, 25000); //Lê pulso em nível alto do canal 5 e armazena na variável canal_05
   canal_05 = constrain(canal_05,965,1930);
-  delay(5);
+  delay(20);
   
    if(canal_03==0 || canal_03<=990) //condiçoes para o motor ficar totalmente desligado 
   {
@@ -108,13 +109,13 @@ void sensoriamento(){
 }
 void avante()
 {
-      PWM=map(canal_03,1000,2000,0,255);
+      PWM=map(canal_03,1145,1950,0,255);
       analogWrite(r_pwm,PWM);
 }
 
 void reverso()
 {
-      PWM=map(canal_03,1000,2000,0,255);
+      PWM=map(canal_03,1145,1950,0,255);
       analogWrite(l_pwm,PWM);
 }
 
