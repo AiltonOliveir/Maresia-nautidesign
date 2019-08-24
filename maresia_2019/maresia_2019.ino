@@ -5,7 +5,7 @@
 
 
 
-#define ch3   4   // Canal 3 no pino 3
+#define ch3   6   // Canal 3 no pino 3
 #define ch5   5   // Canal 5 no pino 4
 #define r_en   7   // Right Enable 1 no pino 7
 #define l_en   8   // Left Enable 2 no pino 8
@@ -69,6 +69,8 @@ while(canal_05<1500) // enquanto a chave estiver para baixo
      avante();
      read_channels();
      delay(10);
+     sensoriamento();
+     test_channels();
 }
       reverso();
       delay(10);
@@ -79,11 +81,11 @@ void read_channels()
 {
   canal_03 = pulseIn(ch3, HIGH, 25000); //Lê pulso em nível alto do canal 3 e armazena na variável canal_03
   canal_03 = constrain(canal_03,1145,1950);
-  delay(20);
+  delay(30);
 
   canal_05 = pulseIn(ch5, HIGH, 25000); //Lê pulso em nível alto do canal 5 e armazena na variável canal_05
   canal_05 = constrain(canal_05,965,1930);
-  delay(20);
+  delay(30);
   
    if(canal_03==0 || canal_03<=990) //condiçoes para o motor ficar totalmente desligado 
   {
